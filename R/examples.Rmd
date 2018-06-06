@@ -1,0 +1,60 @@
+---
+title: "Fish Market Function Example"
+author: "Kenneth Larrieu"
+output: html_document, html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ESM262PackageAssignment)
+```
+
+## Example Use for Fish Market Function
+
+Start by generating sample data: (a sample dataset is also stored in data subdirectory)
+
+```{r}
+# possible fish species to sample from
+species = c("sockeye","chinook","sculpin","jellyfish","flounder")
+
+# typical prices for each possible fish
+prices = data.frame(fish = species, price = c(5, 40, 3, 1, 1))
+
+# locations of fisheries
+locs = c("Earth", "Mars", "Europa", "Titan", "Venus")
+
+catches = matrix(nrow=length(species), ncol=length(locs) )
+colnames(catches)=locs
+rownames(catches)=species
+
+# typical size of catch in each area
+locs = data.frame(name=locs, size = c(10000, 100, 20000, 500, 50))
+
+# generate random catches close to typical sizes for each area
+for ( i in 1: length(species)) {
+  for (j in 1:nrow(locs)) {
+      catches[i,j] =  round(rnorm(mean=locs$size[j], sd=0.1*locs$size[j], n=1))
+  }
+}
+```
+
+Now we can run the function with the example data:
+
+```{r}
+fisheries_summary(catches = catches, prices = prices, plot=FALSE)
+```
+
+This time, make a plot as well
+
+```{r}
+fisheries_summary(catches = example_catch, prices = prices, plot=TRUE)
+```
+
+## Example of Growth Rate Function
+
+We can run the growth rate function using the default parameters from Experiment A in Table 2 of Bjoornsson et al.
+
+```{r}
+#growth rate at temp of 15 degrees Celsius
+growth_rate(15)
+```
